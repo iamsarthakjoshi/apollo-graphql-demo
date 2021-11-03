@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  app:
+    container_name: graphqlapp
+    restart: always
+    build: .
+    ports:
+      - "4000:8080"
+    volumes:
+      - type: bind
+        source: ./
+        target: /usr/src/app
+    links:
+      - mongo
+      - redis
+  mongo:
+    container_name: graphqlmongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27099:27017"
+  redis:
+    image: redis
+    container_name: redis-db
+    ports:
+      - "6389:6379"
